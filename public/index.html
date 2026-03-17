@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AJ Kerin Tennis — Private Coaching, Los Altos</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0E8;
+    --dark: #1A1A18;
+    --forest: #2C3E2D;
+    --gold: #C4A54D;
+    --gold-light: #D4BA6A;
+    --clay: #C17B4A;
+    --white: #FEFCF7;
+    --gray: #8A8680;
+    --gray-light: #D1CCC4;
+    --green-mist: #E8EDE6;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 1.5rem 3rem; display: flex; justify-content: space-between;
+    align-items: center; transition: all 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(245, 240, 232, 0.95); backdrop-filter: blur(20px);
+    padding: 1rem 3rem; box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;
+    font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: var(--dark); font-size: 0.8rem;
+    font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+    opacity: 0.7; transition: opacity 0.3s;
+  }
+  .nav-links a:hover { opacity: 1; }
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    justify-content: center; align-items: center; text-align: center;
+    padding: 6rem 2rem 4rem; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -20%; right: -10%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(196,165,77,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: ''; position: absolute; bottom: -10%; left: -5%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(44,62,45,0.06) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.5rem 1.2rem; border: 1px solid var(--gold); border-radius: 100px;
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 3rem;
+    opacity: 0; animation: fadeUp 0.8s ease 0.3s forwards;
+  }
+  .hero-badge .dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif; font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 300; line-height: 1.05; letter-spacing: -0.02em;
+    margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.8s ease 0.5s forwards;
+  }
+  .hero h1 em { font-style: italic; color: var(--forest); }
+  .hero-sub {
+    font-size: 1.05rem; font-weight: 300; color: var(--gray);
+    max-width: 520px; line-height: 1.7; margin-bottom: 3rem;
+    opacity: 0; animation: fadeUp 0.8s ease 0.7s forwards;
+  }
+  .hero-cta {
+    display: inline-block; padding: 1rem 2.8rem; background: var(--forest);
+    color: var(--white); text-decoration: none; font-size: 0.75rem;
+    font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+    border-radius: 2px; transition: all 0.3s;
+    opacity: 0; animation: fadeUp 0.8s ease 0.9s forwards;
+  }
+  .hero-cta:hover { background: var(--dark); transform: translateY(-1px); }
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; display: flex;
+    flex-direction: column; align-items: center; gap: 0.5rem;
+    opacity: 0; animation: fadeUp 0.8s ease 1.2s forwards;
+  }
+  .hero-scroll span { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); }
+  .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollPulse 2s ease infinite; }
+  .credentials {
+    padding: 6rem 3rem; background: var(--dark); color: var(--cream);
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;
+  }
+  .credential-item { text-align: center; padding: 2rem 1rem; }
+  .credential-number { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; color: var(--gold); margin-bottom: 0.5rem; }
+  .credential-label { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); line-height: 1.5; }
+  .philosophy { padding: 8rem 3rem; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+  .philosophy-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
+  .philosophy h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 300; line-height: 1.2; margin-bottom: 2rem; }
+  .philosophy p { font-size: 0.95rem; line-height: 1.8; color: var(--gray); margin-bottom: 1.2rem; }
+  .philosophy-right { position: relative; padding: 4rem; background: var(--green-mist); border-radius: 2px; }
+  .philosophy-right::before {
+    content: '"'; position: absolute; top: 1rem; left: 2rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 8rem;
+    color: var(--forest); opacity: 0.15; line-height: 1;
+  }
+  .philosophy-quote { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; font-style: italic; line-height: 1.5; color: var(--forest); position: relative; z-index: 1; }
+  .philosophy-attr { margin-top: 1.5rem; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); }
+  .approach { padding: 6rem 3rem 8rem; max-width: 1200px; margin: 0 auto; }
+  .approach-header { text-align: center; margin-bottom: 5rem; }
+  .approach-header h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 4vw, 3rem); font-weight: 300; }
+  .approach-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+  .approach-card { padding: 2.5rem; border: 1px solid var(--gray-light); border-radius: 2px; transition: all 0.4s ease; }
+  .approach-card:hover { border-color: var(--gold); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.06); }
+  .approach-card .num { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; color: var(--gold); margin-bottom: 1.5rem; }
+  .approach-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 500; margin-bottom: 1rem; }
+  .approach-card p { font-size: 0.88rem; line-height: 1.7; color: var(--gray); }
+  .programs { padding: 8rem 3rem; background: var(--forest); color: var(--cream); }
+  .programs-inner { max-width: 1200px; margin: 0 auto; }
+  .programs-header { text-align: center; margin-bottom: 5rem; }
+  .programs-header .label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
+  .programs-header h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 4vw, 3rem); font-weight: 300; color: var(--cream); }
+  .programs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .program-card { padding: 3rem 2.5rem; border: 1px solid rgba(254,252,247,0.12); border-radius: 2px; transition: all 0.4s ease; position: relative; }
+  .program-card.featured { border-color: var(--gold); background: rgba(196,165,77,0.06); }
+  .program-card.featured::before {
+    content: 'Most Popular'; position: absolute; top: -0.6rem; left: 2rem;
+    padding: 0.2rem 0.8rem; background: var(--gold); color: var(--dark);
+    font-size: 0.6rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+  }
+  .program-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 500; margin-bottom: 0.5rem; color: var(--cream); }
+  .program-card .subtitle { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 2rem; }
+  .program-card ul { list-style: none; margin-bottom: 2.5rem; }
+  .program-card li { font-size: 0.85rem; line-height: 1.6; color: rgba(245,240,232,0.7); padding: 0.4rem 0 0.4rem 1.2rem; position: relative; }
+  .program-card li::before { content: '—'; position: absolute; left: 0; color: var(--gold); font-size: 0.7rem; }
+  .program-btn {
+    display: inline-block; padding: 0.8rem 2rem; border: 1px solid rgba(254,252,247,0.3);
+    color: var(--cream); text-decoration: none; font-size: 0.7rem; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase; transition: all 0.3s; border-radius: 2px;
+  }
+  .program-btn:hover { background: var(--cream); color: var(--forest); border-color: var(--cream); }
+  .program-card.featured .program-btn { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+  .program-card.featured .program-btn:hover { background: var(--gold-light); }
+  .apply { padding: 8rem 3rem; max-width: 800px; margin: 0 auto; }
+  .apply-header { text-align: center; margin-bottom: 4rem; }
+  .apply-header .label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
+  .apply-header h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 4vw, 3rem); font-weight: 300; margin-bottom: 1rem; }
+  .apply-header p { font-size: 0.95rem; color: var(--gray); line-height: 1.6; }
+  .form-group { margin-bottom: 1.8rem; }
+  .form-group label { display: block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.6rem; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 1rem 1.2rem; border: 1px solid var(--gray-light);
+    border-radius: 2px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+    color: var(--dark); background: var(--white); transition: border-color 0.3s; outline: none;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--forest); }
+  .form-group textarea { min-height: 120px; resize: vertical; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .form-submit {
+    width: 100%; padding: 1.2rem; background: var(--forest); color: var(--white);
+    border: none; font-family: 'DM Sans', sans-serif; font-size: 0.75rem;
+    font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+    cursor: pointer; border-radius: 2px; transition: all 0.3s; margin-top: 1rem;
+  }
+  .form-submit:hover { background: var(--dark); }
+  .form-note { text-align: center; margin-top: 1.5rem; font-size: 0.8rem; color: var(--gray); font-style: italic; }
+  .bio { padding: 8rem 3rem; background: var(--dark); color: var(--cream); }
+  .bio-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+  .bio-image {
+    aspect-ratio: 3/4; background: linear-gradient(135deg, var(--forest), rgba(44,62,45,0.6));
+    border-radius: 2px; display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .bio-image::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(196,165,77,0.1)),
+      repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(255,255,255,0.02) 40px, rgba(255,255,255,0.02) 41px);
+  }
+  .bio-image-text { font-family: 'Cormorant Garamond', serif; font-size: 6rem; font-weight: 300; color: rgba(245,240,232,0.08); letter-spacing: 0.1em; z-index: 1; }
+  .bio-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
+  .bio h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 300; line-height: 1.2; margin-bottom: 2rem; color: var(--cream); }
+  .bio p { font-size: 0.92rem; line-height: 1.8; color: rgba(245,240,232,0.7); margin-bottom: 1.2rem; }
+  .bio-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 2.5rem; padding-top: 2.5rem; border-top: 1px solid rgba(254,252,247,0.1); }
+  .bio-stat-label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); margin-bottom: 0.3rem; }
+  .bio-stat-value { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--cream); }
+  .contact { padding: 6rem 3rem; text-align: center; background: var(--green-mist); }
+  .contact h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 300; margin-bottom: 1rem; }
+  .contact p { font-size: 0.95rem; color: var(--gray); margin-bottom: 2rem; }
+  .contact-email { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--forest); text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 2px; transition: color 0.3s; }
+  .contact-email:hover { color: var(--dark); }
+  .contact-location { margin-top: 2rem; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); }
+  footer { padding: 3rem; text-align: center; background: var(--dark); color: var(--gray); font-size: 0.75rem; letter-spacing: 0.1em; }
+  footer a { color: var(--gold); text-decoration: none; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes scrollPulse { 0%, 100% { opacity: 0.3; transform: scaleY(1); } 50% { opacity: 1; transform: scaleY(1.2); } }
+  .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .form-success { display: none; text-align: center; padding: 4rem 2rem; }
+  .form-success.show { display: block; }
+  .form-success h3 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--forest); margin-bottom: 1rem; }
+  .form-success p { color: var(--gray); font-size: 0.95rem; }
+  @media (max-width: 900px) {
+    .credentials { grid-template-columns: repeat(2, 1fr); }
+    .philosophy, .bio-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .approach-grid, .programs-grid { grid-template-columns: 1fr; }
+    .bio-image { max-height: 400px; }
+    .form-row { grid-template-columns: 1fr; }
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 8rem 1.5rem 4rem; }
+    .credentials, .philosophy, .approach, .programs, .apply, .bio, .contact { padding-left: 1.5rem; padding-right: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">AJ Kerin</div>
+  <ul class="nav-links">
+    <li><a href="#philosophy">Philosophy</a></li>
+    <li><a href="#programs">Programs</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#apply">Apply</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge"><span class="dot"></span> USTA P1 Certified · Los Altos, CA</div>
+  <h1>The game <em>reveals</em><br>who you are</h1>
+  <p class="hero-sub">Private tennis coaching built on 20 years of competitive experience. I don't take every student. I take the ones ready to work.</p>
+  <a href="#apply" class="hero-cta">Apply to Train</a>
+  <div class="hero-scroll"><span>Scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<section class="credentials">
+  <div class="credential-item reveal"><div class="credential-number">P1</div><div class="credential-label">USTA Certification<br>Highest Level</div></div>
+  <div class="credential-item reveal"><div class="credential-number">20+</div><div class="credential-label">Years Competitive<br>Experience</div></div>
+  <div class="credential-item reveal"><div class="credential-number">100</div><div class="credential-label">Career High School<br>Singles Victories</div></div>
+  <div class="credential-item reveal"><div class="credential-number">No. 6</div><div class="credential-label">USTA National<br>Junior Ranking</div></div>
+</section>
+
+<section class="philosophy" id="philosophy">
+  <div class="reveal">
+    <div class="philosophy-label">Coaching Philosophy</div>
+    <h2>I coach players,<br>not forehands</h2>
+    <p>Every player who walks onto my court has a game inside them that's uniquely theirs. My job isn't to rebuild you in someone else's image. It's to find what's already there and make it unshakable.</p>
+    <p>I come from competitive tennis — nationally ranked juniors, NCAA Division I, the professional circuit. I know what it takes because I've lived it. And I know the difference between a coach who teaches technique and one who develops a competitor.</p>
+    <p>That's what I do. I develop competitors.</p>
+  </div>
+  <div class="philosophy-right reveal">
+    <div class="philosophy-quote">The best coaching relationship is one where the player eventually doesn't need you — but always wants you in their corner.</div>
+    <div class="philosophy-attr">— AJ Kerin</div>
+  </div>
+</section>
+
+<section class="approach" id="approach">
+  <div class="approach-header reveal">
+    <div class="philosophy-label">The Approach</div>
+    <h2>Three pillars of development</h2>
+  </div>
+  <div class="approach-grid">
+    <div class="approach-card reveal"><div class="num">01</div><h3>Technical Precision</h3><p>Biomechanically sound fundamentals tailored to your body and your game. Not one-size-fits-all instruction — engineered strokes that hold up under match pressure.</p></div>
+    <div class="approach-card reveal"><div class="num">02</div><h3>Competitive Intelligence</h3><p>Reading the opponent, managing momentum, understanding when to attack and when to construct. The mental architecture that separates club players from competitors.</p></div>
+    <div class="approach-card reveal"><div class="num">03</div><h3>Parent Partnership</h3><p>For junior players: I work with the whole family. Parents learn how to support the player's development without creating pressure. We're a team — player, coach, family.</p></div>
+  </div>
+</section>
+
+<section class="programs" id="programs">
+  <div class="programs-inner">
+    <div class="programs-header reveal"><div class="label">Training Programs</div><h2>Select your path</h2></div>
+    <div class="programs-grid">
+      <div class="program-card reveal">
+        <h3>Foundation</h3><div class="subtitle">Developing Players</div>
+        <ul><li>Weekly private sessions</li><li>Stroke development & refinement</li><li>Match play fundamentals</li><li>Monthly progress assessment</li><li>Tournament guidance</li></ul>
+        <a href="#apply" class="program-btn">Apply Now</a>
+      </div>
+      <div class="program-card featured reveal">
+        <h3>Competitive</h3><div class="subtitle">Ranked Juniors & Adults</div>
+        <ul><li>2–3 sessions per week</li><li>Advanced tactical training</li><li>Match simulation & analysis</li><li>Tournament scheduling support</li><li>Direct communication access</li></ul>
+        <a href="#apply" class="program-btn">Apply Now</a>
+      </div>
+      <div class="program-card reveal">
+        <h3>Elite</h3><div class="subtitle">By Invitation Only</div>
+        <ul><li>Intensive daily training blocks</li><li>Full competitive season planning</li><li>College recruitment guidance</li><li>Mental performance work</li><li>24/7 coach access</li></ul>
+        <a href="#apply" class="program-btn">Inquire</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="apply" id="apply">
+  <div class="apply-header reveal">
+    <div class="label">Begin Here</div>
+    <h2>Apply to train with AJ</h2>
+    <p>I keep my roster intentionally small. Tell me about the player, the goals, and the commitment level. If it's the right fit, I'll reach out within 48 hours.</p>
+  </div>
+  <div id="applicationForm">
+    <div class="form-row">
+      <div class="form-group"><label>Player Name</label><input type="text" placeholder="Full name" required></div>
+      <div class="form-group"><label>Parent/Guardian Name</label><input type="text" placeholder="If junior player"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Email</label><input type="email" placeholder="your@email.com" required></div>
+      <div class="form-group"><label>Phone</label><input type="tel" placeholder="(000) 000-0000"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Player Age</label><input type="text" placeholder="Age"></div>
+      <div class="form-group"><label>Current USTA/UTR Rating</label><input type="text" placeholder="e.g., 4.5 NTRP or 8.0 UTR"></div>
+    </div>
+    <div class="form-group"><label>Program Interest</label>
+      <select><option value="" disabled selected>Select a program</option><option>Foundation — Developing Players</option><option>Competitive — Ranked Juniors & Adults</option><option>Elite — By Invitation</option><option>Not sure — Help me decide</option></select>
+    </div>
+    <div class="form-group"><label>Tell me about the player</label><textarea placeholder="Playing history, current training, tournament experience, strengths, areas to improve..."></textarea></div>
+    <div class="form-group"><label>What are your goals?</label><textarea placeholder="What does success look like in 6 months? In 2 years? What matters most to you?"></textarea></div>
+    <button class="form-submit" onclick="submitForm()">Submit Application</button>
+    <p class="form-note">Applications are reviewed personally by AJ. Expect a response within 48 hours.</p>
+  </div>
+  <div class="form-success" id="formSuccess"><h3>Application Received</h3><p>Thank you. AJ will review your application personally and reach out within 48 hours if it's the right fit.</p></div>
+</section>
+
+<section class="bio" id="about">
+  <div class="bio-inner">
+    <div class="bio-image"><div class="bio-image-text">AJK</div></div>
+    <div>
+      <div class="bio-label reveal">About AJ</div>
+      <h2 class="reveal">Anthony John Kerin IV</h2>
+      <p class="reveal">AJ grew up on the courts of Saratoga, California, where he became one of the top-ranked junior players in the nation — reaching No. 6 in USTA Boys 14s and earning High School All-American honors with 100 career singles victories at Saratoga High.</p>
+      <p class="reveal">He competed at the NCAA Division I level at Santa Clara University and Fresno State before beginning his coaching career. Over two decades, he's trained nationally ranked juniors, built private training programs, and earned the USTA's highest coaching certification — the P1 license.</p>
+      <p class="reveal">Based on the Peninsula, AJ specializes in developing serious competitive players through private, selective coaching relationships. He also co-founded AJ Tennis Academy International, a nonprofit dedicated to expanding tennis access worldwide.</p>
+      <div class="bio-stats reveal">
+        <div><div class="bio-stat-label">Alma Mater</div><div class="bio-stat-value">Santa Clara · Fresno State</div></div>
+        <div><div class="bio-stat-label">Certification</div><div class="bio-stat-value">USTA P1 (Highest)</div></div>
+        <div><div class="bio-stat-label">Base</div><div class="bio-stat-value">Los Altos, California</div></div>
+        <div><div class="bio-stat-label">Specialty</div><div class="bio-stat-value">Competitive Development</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact">
+  <h2>Ready to start?</h2>
+  <p>For inquiries, reach AJ directly.</p>
+  <a href="mailto:ajktennis@gmail.com" class="contact-email">ajktennis@gmail.com</a>
+  <div class="contact-location">Los Altos · Menlo Park · Peninsula, CA</div>
+</section>
+
+<footer>&copy; 2026 AJ Kerin Tennis. All rights reserved.</footer>
+
+<script>
+  const SUPABASE_URL = 'https://nanjrgyjbvhbgibpblfy.supabase.co';
+  const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5hbmpyZ3lqYnZoYmdpYnBibGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1NzA0MzUsImV4cCI6MjA4NzE0NjQzNX0.C9mJxaVPZ9TT91IvbadBX8ZPj_zIN0ncewkFSyHcYcs';
+
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 80);
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 100);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  async function submitForm() {
+    const form = document.getElementById('applicationForm');
+    const btn = form.querySelector('.form-submit');
+    const inputs = form.querySelectorAll('input, select, textarea');
+    const data = {
+      player_name: inputs[0].value.trim(),
+      parent_name: inputs[1].value.trim() || null,
+      email: inputs[2].value.trim(),
+      phone: inputs[3].value.trim() || null,
+      player_age: inputs[4].value.trim() || null,
+      rating: inputs[5].value.trim() || null,
+      program_interest: inputs[6].value || null,
+      player_background: inputs[7].value.trim() || null,
+      goals: inputs[8].value.trim() || null
+    };
+    if (!data.player_name || !data.email) {
+      btn.textContent = 'Please fill in name and email';
+      btn.style.background = 'var(--clay)';
+      setTimeout(() => { btn.textContent = 'SUBMIT APPLICATION'; btn.style.background = ''; }, 2500);
+      return;
+    }
+    btn.textContent = 'SUBMITTING...'; btn.disabled = true;
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/applications`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON,
+          'Authorization': `Bearer ${SUPABASE_ANON}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(data)
+      });
+      if (res.ok) {
+        form.style.display = 'none';
+        document.getElementById('formSuccess').classList.add('show');
+      } else { throw new Error('fail'); }
+    } catch (err) {
+      btn.textContent = 'SOMETHING WENT WRONG — TRY AGAIN';
+      btn.style.background = 'var(--clay)'; btn.disabled = false;
+      setTimeout(() => { btn.textContent = 'SUBMIT APPLICATION'; btn.style.background = ''; }, 3000);
+    }
+  }
+</script>
+</body>
+</html>
